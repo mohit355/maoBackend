@@ -9,22 +9,20 @@ module.exports = {
       },
       userId: {
         type: Sequelize.UUID,
-        primaryKey: true,
         allowNull: false,
       },
       productId: {
         type: Sequelize.ARRAY(Sequelize.UUID),
-        primaryKey: true,
         allowNull: false,
       },
       addressId: {
         type: Sequelize.UUID,
-        primaryKey: true,
         allowNull: false,
       },
       discountId: {
         type: Sequelize.UUID,
-        primaryKey: true,
+        allowNull: true,
+
       },
       quantity: {
         type: Sequelize.STRING,

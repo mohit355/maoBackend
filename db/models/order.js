@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.Order.hasOne(models.User, { foreignKey: 'updatedBy' });
       models.Order.hasOne(models.User, { foreignKey: 'deletedBy' });
-      models.Order.belongsTo(models.User, { foreignKey: 'userId', as: 'UserId' });
+      models.Order.belongsTo(models.User, { foreignKey: 'userId' });
+      models.Order.belongsTo(models.Address, { foreignKey: 'addressId'});
+
       // models.Order.hasMany(models.Product, { foreignKey: 'productId'});
     }
   }
@@ -19,22 +21,20 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.UUID,
-        primaryKey: true,
         allowNull: false,
       },
       productId: {
         type: DataTypes.ARRAY(DataTypes.UUID),
-        primaryKey: true,
         allowNull: false,
       },
       addressId: {
         type: DataTypes.UUID,
-        primaryKey: true,
         allowNull: false,
       },
       discountId: {
         type: DataTypes.UUID,
-        primaryKey: true,
+        allowNull: true,
+
       },
       quantity: {
         type: DataTypes.STRING,

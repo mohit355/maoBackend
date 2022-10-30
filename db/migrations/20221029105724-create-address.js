@@ -9,7 +9,6 @@ module.exports = {
       },
       userId: {
         type: Sequelize.UUID,
-        primaryKey: true,
         allowNull: false,
       },
       houseNo: {

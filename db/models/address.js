@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.Address.hasOne(models.User, { foreignKey: 'updatedBy' });
       models.Address.hasOne(models.User, { foreignKey: 'deletedBy' });
+      models.Address.hasOne(models.Order, { foreignKey: 'addressId' });
       models.Address.belongsTo(models.User, { foreignKey: 'userId', as: 'UserId' });
-
     }
   }
   Address.init(
@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.UUID,
-        primaryKey: true,
         allowNull: false,
       },
       houseNo: {
