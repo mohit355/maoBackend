@@ -24,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       phoneNumber: { type: DataTypes.STRING, allowNull: false, required: true, validate:{
         isNumeric: {args:true,msg: "Must be a valid mobile number"},len: [10,10],
       }},
+      isAdmin:{
+        type: DataTypes.ENUM('0', '1'),
+        allowNull: false,
+        defaultValue:"0"
+      },
       createdAt: { type: DataTypes.DATE },
       updatedBy: { type: DataTypes.UUID },
       updatedAt: { type: DataTypes.DATE },

@@ -56,13 +56,9 @@ exports.getAllAddressByUserId= async (req,res)=>{
 }
 
 exports.addAddress= async (req,res)=>{
-    console.log(req.body);
-    // res.status(200).send({auth:false, Details:req.body});
-
-
     // add address 
     const newAddress= await db.Address.create({
-                    ...req.body, updatedBy:req.body.userId
+        ...req.body,userId:req.user.id, updatedBy:req.user.id
     });
 
     try {
@@ -80,7 +76,7 @@ exports.updateAddress= async (req,res)=>{
     const {id}=req.params;
 
     try {
-        const updatedAddress= db.Address.update({
+        const updatedAddress=await  db.Address.update({
             ...req.body
         },{
             where:{
@@ -100,7 +96,7 @@ exports.updateAddress= async (req,res)=>{
 
 exports.DeleteAddress= async (req,res)=>{
     const {id}=req.params;
-
+    
     try {
         db.Address.destroy({
             where:{

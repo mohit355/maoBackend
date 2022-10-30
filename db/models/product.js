@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       productPrice: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         required: true,
         allowNull: false,
       },
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         // allowNull: false
       },
       productType: {
-        type: DataTypes.ENUM('Veg', 'Non-veg','All'),
+        type: DataTypes.ENUM('Veg', 'Non veg','All'),
         required: true,
         allowNull: false,
         defaultValue:'All'

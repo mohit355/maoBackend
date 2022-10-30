@@ -9,6 +9,8 @@ const morgan = require("morgan");
 // import routes
 const authRoutes = require("./routes/auth");
 const addressRoutes = require("./routes/address");
+const productRoutes = require("./routes/product");
+
 
 
 const app = express();
@@ -34,6 +36,8 @@ app.use(cors());
 
 app.use("/api", authRoutes);
 app.use("/api", addressRoutes);
+app.use("/api", productRoutes);
+
 
 
 

@@ -1,11 +1,7 @@
 const jwt = require("jsonwebtoken"); //to generate signed token
-// const expressJwt = require("express-jwt"); //for authorization check
-// const { errorHandler } = require("../helpers/dbErrorHandler");
 const db = require('../db/models/index');
 require('../helpers/init-env')();
 const axios =  require('axios')
-
-
 
 exports.sendRegisterOTP =async (req,res)=>{
     console.log(req.body)
@@ -52,7 +48,6 @@ exports.sendLoginOTP =async (req,res)=>{
 }
 
 exports.signup = async (req, res) => {
-
     // let verifiedOTP = await verifyOTP(req.body.session_id, req.body.otp_entered_by_user)
     // console.log(verifiedOTP.data);
     //     if(verifiedOTP.data.Details === "OTP Matched" )
@@ -83,10 +78,11 @@ exports.signup = async (req, res) => {
 
     const newUser = await db.User.create({
                     name:req.body.name,
-                    phoneNumber:req.body.phoneNumber
+                    phoneNumber:req.body.phoneNumber,
+                    isAdmin:req.body.isAdmin
     });
      await newUser.save();
-     var token = await jwt.sign({id: newUser.user_id}, process.env.SECRET_KEY, {
+     var token = await jwt.sign({id: newUser.id, isAdmin:newUser.isAdmin, name: newUser.name, phoneNumber:newUser.phoneNumber}, process.env.SECRET_KEY, {
         expiresIn: 86400 
     });
     res.status(200).send({ auth: true, token: token , user: newUser });
@@ -123,7 +119,7 @@ exports.signin = async (req, res) => {
 //   }
 
   if(existingUser){
-    const token = jwt.sign({id: existingUser.user_id}, process.env.SECRET_KEY, {
+    const token = jwt.sign({id: existingUser.id, isAdmin:existingUser.isAdmin, name: existingUser.name, phoneNumber:existingUser.phoneNumber}, process.env.SECRET_KEY, {
                     expiresIn: 86400 
             });
     res.status(200).send({ auth: true, token: token , user: existingUser });
@@ -141,15 +137,43 @@ exports.signout = (req, res) => {
   });
 };
 
+exports.makeAdmin = async (req, res) => {
+    const {id}=req.params;
 
-// exports.isAdmin = (req, res, next) => {
-//   if (req.profile.role === 0) {
-//     return res.status(403).json({
-//       error: "Admin resource! Access denied",
-//     });
-//   }
-//   next();
-// };
+    try {
+        await db.User.update({
+          isAdmin:"1",
+        },{
+           where:{
+            id:id
+          }
+        });
+        res.status(200).send({ auth: true, msg: "user is now an admin"});
+
+
+    } catch (error) {
+      console.log("is admin errro ", error);
+      res.status(400).send({error})
+    }
+};
+
+exports.removeFromAdmin = async (req, res) => {
+    const {id}=req.params;
+    try {
+        await db.User.update({
+          isAdmin:"0",
+        },
+        {
+          where:{
+            id:id
+          }
+        });
+        res.status(200).send({ auth: true, msg: "user has been removed from admin role"});
+    } catch (error) {
+      console.log("remove admin errro ", error);
+      res.status(400).send({error})
+    }
+};
 
 const sendOTPMessage = async (phone_no) => {
     console.log(phone_no)

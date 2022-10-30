@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const {getProductById,getAllProduct,getProductByType,addProduct,updateProduct,deleteProduct} = require("../controller/auth");
+const {getProductById,getAllProduct,getProductByType,addProduct,updateProduct,deleteProduct} = require("../controller/product");
 const auth= require("../middleware/auth")
 const {isAdmin}= require("../validators/index")
 
-router.get("/product",auth, getAllProduct);
-router.get("/product/:id",auth, getProductById);
+router.get("/product/all", getAllProduct);
+router.get("/product/:id", getProductById);
 router.post("/product/add", auth,isAdmin,addProduct);
-router.post("/product/update",auth,isAdmin, updateProduct);
-router.post("/product/delete",auth,isAdmin, deleteProduct);
-router.param("userId",auth, userById);
+router.post("/product/update/:id",auth,isAdmin, updateProduct);
+router.post("/product/delete/:id",auth,isAdmin, deleteProduct);
 module.exports = router;

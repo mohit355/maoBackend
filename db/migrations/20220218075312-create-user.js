@@ -12,6 +12,11 @@ module.exports = {
       phoneNumber: { type: Sequelize.STRING, allowNull: false, required: true,validate:{
         isNumeric: true,len: [10,10],
       }},
+       isAdmin:{
+        type: Sequelize.ENUM('0', '1'),
+        allowNull: false,
+        defaultValue:"0"
+      },
       createdAt: { type: Sequelize.DATE },
       updatedBy: { type: Sequelize.UUID },
       updatedAt: { type: Sequelize.DATE },
