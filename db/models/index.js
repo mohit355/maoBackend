@@ -4,6 +4,8 @@ const orderModel = require('./order');
 const productModel = require('./product');
 const addressModel = require('./address');
 const userModel = require('./user');
+const discountModel = require('./discount');
+
 
 const db = {};
 
@@ -18,11 +20,8 @@ requireModel(userModel);
 requireModel(orderModel);
 requireModel(productModel);
 requireModel(addressModel);
-// requireModel(contentModel);
-// requireModel(userDemoPreferenceModel);
-// requireModel(fieldModel);
-// requireModel(logModel);
-// requireModel(contentDataModel);
+requireModel(discountModel);
+
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

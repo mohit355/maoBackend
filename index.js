@@ -11,6 +11,8 @@ const authRoutes = require("./routes/auth");
 const addressRoutes = require("./routes/address");
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
+const discountRoutes = require("./routes/discount");
+
 
 
 
@@ -40,6 +42,8 @@ app.use("/api", authRoutes);
 app.use("/api", addressRoutes);
 app.use("/api", productRoutes);
 app.use("/api", orderRoutes);
+app.use("/api", discountRoutes);
+
 
 app.listen(process.env.PORT ,()=>{
     console.log(`Server started at port ${process.env.PORT} `)

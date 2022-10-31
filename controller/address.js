@@ -98,7 +98,7 @@ exports.DeleteAddress= async (req,res)=>{
     const {id}=req.params;
     
     try {
-        db.Address.destroy({
+        await db.Address.destroy({
             where:{
                 id:id
             }
