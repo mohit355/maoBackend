@@ -22,7 +22,12 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
         allowNull: false
       },
-      productPrice: {
+      productHalfPrice: {
+        type: DataTypes.INTEGER,
+        required: true,
+        allowNull: false,
+      },
+      productFullPrice: {
         type: DataTypes.INTEGER,
         required: true,
         allowNull: false,

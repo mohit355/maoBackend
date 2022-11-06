@@ -12,6 +12,16 @@ module.exports = {
       phoneNumber: { type: Sequelize.STRING, allowNull: false, required: true,validate:{
         isNumeric: true,len: [10,10],
       }},
+       password: {
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false
+      },
+      salt: {
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false
+      },
        isAdmin:{
         type: Sequelize.ENUM('0', '1'),
         allowNull: false,

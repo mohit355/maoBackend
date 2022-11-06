@@ -24,6 +24,16 @@ module.exports = (sequelize, DataTypes) => {
       phoneNumber: { type: DataTypes.STRING, allowNull: false, required: true, validate:{
         isNumeric: {args:true,msg: "Must be a valid mobile number"},len: [10,10],
       }},
+      password: {
+        type: DataTypes.STRING,
+        required: true,
+        allowNull: false
+      },
+      salt: {
+        type: DataTypes.STRING,
+        required: true,
+        allowNull: false
+      },
       isAdmin:{
         type: DataTypes.ENUM('0', '1'),
         allowNull: false,

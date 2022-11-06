@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken"); //to generate signed token
 const db = require('../db/models/index');
 require('../helpers/init-env')();
 const axios =  require('axios')
+const crypto = require("crypto"); // for password hashing
+const { v4: uuidv4 } = require("uuid"); // used to generated unique user id
 
 exports.sendRegisterOTP =async (req,res)=>{
     console.log(req.body)
@@ -28,101 +30,102 @@ exports.sendRegisterOTP =async (req,res)=>{
     }
 }
 
-exports.sendLoginOTP =async (req,res)=>{
-    const existingUser = await db.User.findOne({
-        where:{
-            phoneNumber:req.body.phoneNumber
-        }
-    })
+exports.verifyOTP =async (req,res)=>{
+    let verifiedOTP = await verifyOTP(req.body.session_id, req.body.otp_entered_by_user)
+    console.log(verifiedOTP.data);
+        if(verifiedOTP.data.Details === "OTP Matched" )
+        {
+          res.status(200).send({ auth: true,msg:"token verified" });
 
-    if(existingUser)
-    {
-        otpResponse = await sendOTPMessage(req.body.phoneNumber)
-        console.log(otpResponse.data);
-        res.send(otpResponse.data);
+        }
+        else
+        {
+            return res.status(401).send({auth:false, Details:"Wrong OTP Entered ! Please Try Again !"});
+        }
+
+}
+
+
+const encryptPassword=(password,salt)=>{
+  if (!password) {
+      return "";
     }
-    else
-    {
-        res.status(401).send({"Details":"Phone Number Not Registered"})
+
+    try {
+      return crypto
+        .createHmac("sha1", salt)
+        .update(password)
+        .digest("hex");
+    } catch (error) {
+      return "";
     }
 }
 
-exports.signup = async (req, res) => {
-    // let verifiedOTP = await verifyOTP(req.body.session_id, req.body.otp_entered_by_user)
-    // console.log(verifiedOTP.data);
-    //     if(verifiedOTP.data.Details === "OTP Matched" )
-    //     {
-    //             const newUser = await db.User.create({
-    //                 name:req.body.name,
-    //                 phoneNumber:req.body.phoneNumber
-    //             });
-    //             try
-    //             {
-    //                     await newUser.save();
-    //                     // create a token
-    //                     var token = await jwt.sign({id: newUser.user_id}, process.env.SECRET_KEY, {
-    //                       expiresIn: 86400 
-    //                     });
-    //                     res.status(200).send({ auth: true, token: token , user: newUser });
-    //             }
-    //             catch(err)
-    //             {
-    //                 console.log("Error:" ,err)
-    //                 res.send(err)
-    //             }       
-    //     }
-    //     else
-    //     {
-    //         return res.status(401).send({auth:false, Details:"Wrong OTP Entered ! Please Try Again !"});
-    //     }
 
-    const newUser = await db.User.create({
-                    name:req.body.name,
-                    phoneNumber:req.body.phoneNumber,
-                    isAdmin:req.body.isAdmin
-    });
-     await newUser.save();
-     var token = await jwt.sign({id: newUser.id, isAdmin:newUser.isAdmin, name: newUser.name, phoneNumber:newUser.phoneNumber}, process.env.SECRET_KEY, {
-        expiresIn: 86400 
-    });
-    res.status(200).send({ auth: true, token: token , user: newUser });
+const validatePassword=(plainPassword, hashedPassword,salt)=>{
+  return encryptPassword(plainPassword,salt) === hashedPassword;
+}
+
+exports.signup = async (req, res) => {
+
+    const {name,phoneNumber,password, isAdmin}=req.body;
+    const salt=uuidv4();
+    try {
+      const existingUser =  await db.User.findOne({
+        where:{
+            phoneNumber:phoneNumber
+        }
+      })
+
+      if(existingUser){
+        return res.status(401).json({
+          msg: "There is already an account exists with this number.",
+        });
+      }
+      const hashedPassword=encryptPassword(password,salt);
+      let newUser = await db.User.create({
+                      name,
+                      phoneNumber,
+                      isAdmin,
+                      salt,
+                      password:hashedPassword,
+      });
+      await newUser.save();
+      var token = await jwt.sign({id: newUser.id, isAdmin:newUser.isAdmin, name: newUser.name, phoneNumber:newUser.phoneNumber}, process.env.SECRET_KEY, {
+          expiresIn: 86400 
+      });
+      newUser.password=undefined;
+      newUser.salt=undefined;
+
+      res.status(200).send({ auth: true, token: token , user: newUser });
+    } catch (error) {
+      console.log("error in signup ",error);
+      res.status(400).send({error})
+    }
 };
 
 exports.signin = async (req, res) => {
     console.log(req.body);
-    const {phoneNumber, session_id , otp_entered_by_user } = req.body;
+    const {phoneNumber,password}=req.body;
+
     const existingUser =  await db.User.findOne({
         where:{
             phoneNumber:phoneNumber
         }
     })
-//     try
-//     {
-//          verifiedOTP = await verifyOTP(session_id, otp_entered_by_user)
-    
-//             if(verifiedOTP.data.Details === "OTP Matched" && existingUser )
-//             {
-//                 const token = jwt.sign({id: existingUser.user_id}, process.env.SECRET_KEY, {
-//                     expiresIn: 86400 
-//                   });
-//                   res.status(200).send({ auth: true, token: token , user: existingUser });
-//             }
-//             else
-//             {
-//                 res.status(400).send({auth:false, Details:"Invalid Credentials !"});
-//             }
-//   }
-//   catch (err)
-//   {
-//     console.error(err);
-//     res.send(err);
-//   }
 
   if(existingUser){
-    const token = jwt.sign({id: existingUser.id, isAdmin:existingUser.isAdmin, name: existingUser.name, phoneNumber:existingUser.phoneNumber}, process.env.SECRET_KEY, {
+    if(validatePassword(password,existingUser.password,existingUser.salt)){
+      const token = jwt.sign({id: existingUser.id, isAdmin:existingUser.isAdmin, name: existingUser.name, phoneNumber:existingUser.phoneNumber}, process.env.SECRET_KEY, {
                     expiresIn: 86400 
-            });
-    res.status(200).send({ auth: true, token: token , user: existingUser });
+      });
+      res.status(200).send({ auth: true, token: token , user: existingUser });
+    }
+    else{
+      res.status(401).json({
+        msg: "Phone number and password does not match",
+      });
+    }
   }
   else{
     res.status(400).send({auth:false, Details:"Invalid Credentials !"});
