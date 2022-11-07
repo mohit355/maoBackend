@@ -86,7 +86,7 @@ exports.signup = async (req, res) => {
       let newUser = await db.User.create({
                       name,
                       phoneNumber,
-                      isAdmin,
+                      isAdmin:isAdmin?isAdmin:"0",
                       salt,
                       password:hashedPassword,
       });
@@ -187,10 +187,10 @@ const sendOTPMessage = async (phone_no) => {
     }
   }
 
-  const verifyOTP = async (session_id,otp_entered_by_user) => {
+const verifyOTP = async (session_id,otp_entered_by_user) => {
     try {
       return await axios.get(`https://2factor.in/API/V1/${process.env.SMS_KEY}/SMS/VERIFY/${session_id}/${otp_entered_by_user}`)
     } catch (error) {
       console.error(error)
     }
-  }
+}
