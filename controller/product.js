@@ -2,7 +2,7 @@ const db = require('../db/models/index');
 
 exports.getProductById= async (req,res)=>{
     try {
-        const products= await db.Product.findAll({
+        const products= await db.Product.findOne({
             where:{
                 id:req.params.id
             }

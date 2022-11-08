@@ -23,12 +23,11 @@ const app = express();
 app.use(express.json())
 app.use(bodyParser.json());
 app.use(morgan("dev"));
-// app.use(express.urlencoded({extended: true}))
-// app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-app.use(cors());
+app.use(cors({ origin: "*", credentials: true }));
+
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.header(

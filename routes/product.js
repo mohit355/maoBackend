@@ -8,5 +8,5 @@ router.get("/product/all", getAllProduct);
 router.get("/product/:id", getProductById);
 router.post("/product/add", auth,isAdmin,addProduct);
 router.post("/product/update/:id",auth,isAdmin, updateProduct);
-router.post("/product/delete/:id",auth,isAdmin, deleteProduct);
+router.delete("/product/delete/:id",auth,isAdmin, deleteProduct);
 module.exports = router;
