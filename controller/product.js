@@ -40,6 +40,27 @@ exports.getAllProduct= async (req, res)=>{
     }
 }
 
+exports.getProductByCategory=async (req,res)=>{
+    console.log("ALL PRODUCTS calls ");
+
+    try {
+        const allProducts =await db.Product.findAll({
+        attributes:['id','productName','productCategory'],
+        group:["productCategory",'id']
+    })
+    console.log("ALL PRODUCTS ", allProducts);
+    res.status(200).send({auth:true, data:allProducts})
+
+
+    } catch (error) {
+        console.log("error ",error);
+    res.status(200).send({auth:true, data:'allProducts'})
+
+    }
+
+
+}
+
 exports.getProductByType= async ()=>{}
 
 // only accessible by admin

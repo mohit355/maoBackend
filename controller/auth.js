@@ -20,13 +20,17 @@ exports.sendRegisterOTP =async (req,res)=>{
 
     if(existingUser === null)
     {
-        otpResponse = await sendOTPMessage(req.body.phoneNumber)
-        console.log(otpResponse.data);
-        res.send(otpResponse.data);
+        try {
+          otpResponse = await sendOTPMessage(req.body.phoneNumber)
+          console.log(otpResponse.data);
+          res.status(200).send({code:"200",...otpResponse.data});
+        } catch (error) {
+          res.status(500).send({error});
+        }
     }
     else
     {
-        res.status(401).send({"Details":"Phone Number Already Registered ? Try Again With Another Number"})
+        res.status(401).send({"msg":"Phone Number Already Registered ? Try Again With Another Number"})
     }
 }
 

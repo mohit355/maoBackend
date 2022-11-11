@@ -9,5 +9,5 @@ router.get("/discount/:id", getDiscountById);
 router.post("/discount/discountByOrderPrice", getDiscountByOrderPriceRange);
 router.post("/discount/add", auth,isAdmin,addDiscount);
 router.post("/discount/update/:id", auth,isAdmin,updateDiscount);
-router.post("/discount/delete/:id", auth,isAdmin,deleteDiscount);
+router.delete("/discount/delete/:id", auth,isAdmin,deleteDiscount);
 module.exports = router;
