@@ -52,6 +52,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue:'All'
       },
+      productCategory: {
+        type: DataTypes.STRING,
+        required: true,
+        allowNull: false,
+      },
       createdAt: { type: DataTypes.DATE },
       updatedBy: { type: DataTypes.UUID },
       updatedAt: { type: DataTypes.DATE },
