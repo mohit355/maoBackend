@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       productHalfPrice: {
         type: DataTypes.INTEGER,
-        required: true,
         allowNull: false,
       },
       productFullPrice: {
@@ -48,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         // allowNull: false
       },
       productType: {
-        type: DataTypes.ENUM('Veg', 'Non veg','All'),
+        type: DataTypes.ENUM('veg', 'non-veg','All'),
         required: true,
         allowNull: false,
         defaultValue:'All'
