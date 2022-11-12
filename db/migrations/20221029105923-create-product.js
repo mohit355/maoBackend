@@ -17,7 +17,7 @@ module.exports = {
       },
       productHalfPrice: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       productFullPrice: {
         type: Sequelize.INTEGER,
