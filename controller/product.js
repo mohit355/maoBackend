@@ -40,6 +40,25 @@ exports.getAllProduct= async (req, res)=>{
     }
 }
 
+exports.getAllAdminViewProduct= async (req, res)=>{
+
+    try {
+        const products= await db.Product.findAll();
+
+        if(products){
+            res.status(200).send({auth:true, data:products});
+
+        }
+        else{
+            res.status(404).send({auth:true, data:[]});
+        }
+    } catch (error) {
+        console.log("get all product error ",error);
+        res.status(400).send({error})
+        
+    }
+}
+
 exports.getProductByCategory=async (req,res)=>{
     console.log("ALL PRODUCTS calls ");
 

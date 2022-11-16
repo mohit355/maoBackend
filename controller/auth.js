@@ -144,6 +144,28 @@ exports.signout = (req, res) => {
   });
 };
 
+exports.getMe=(req,res)=>{
+  console.log("request ",req.headers["x-access-token"]);
+  const token =req.headers["x-access-token"];
+  if(token){
+    try {
+      const decoded = jwt.verify(token, process.env.SECRET_KEY,{ complete: true });
+      req.user = decoded.payload;
+      return res.status(200).send({userDetails:{id:decoded.payload.id,name:decoded.payload.name,isAdmin:decoded.payload.isAdmin,phoneNumber:decoded.payload.phoneNumber}});
+    } catch (err) {
+      console.log("ERRRRRRR ",err);
+      return res.status(200).send({userDetails:{},msg:"Inavlid User"});
+    }
+  }
+  else{
+    return res.status(200).send({userDetails:{},msg:"Inavlid User"});
+  }
+
+
+
+  
+}
+
 exports.makeAdmin = async (req, res) => {
     const {id}=req.params;
 
