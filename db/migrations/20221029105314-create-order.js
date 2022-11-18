@@ -11,8 +11,8 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: false,
       },
-      productId: {
-        type: Sequelize.ARRAY(Sequelize.UUID),
+      product: {
+        type: Sequelize.JSON,
         allowNull: false,
       },
       addressId: {
@@ -23,11 +23,6 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: true,
 
-      },
-      quantity: {
-        type: Sequelize.STRING,
-        required: true,
-        allowNull: false
       },
       status: {
         type: Sequelize.STRING,
@@ -42,6 +37,15 @@ module.exports = {
         type: Sequelize.STRING,
         required: true,
         allowNull: false
+      },
+      outletName:{
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false
+      },
+      suggestion:{
+        type: Sequelize.STRING,
+        allowNull: true
       },
       deliveryTime: {
         type: Sequelize.DATE,

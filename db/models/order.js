@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         allowNull: false,
       },
-      productId: {
-        type: DataTypes.ARRAY(DataTypes.UUID),
+      product: {
+        type: DataTypes.JSON,
         allowNull: false,
       },
       addressId: {
@@ -34,12 +34,6 @@ module.exports = (sequelize, DataTypes) => {
       discountId: {
         type: DataTypes.UUID,
         allowNull: true,
-
-      },
-      quantity: {
-        type: DataTypes.STRING,
-        required: true,
-        allowNull: false
       },
       status: {
         type: DataTypes.STRING,
@@ -54,6 +48,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         required: true,
         allowNull: false
+      },
+      outletName:{
+        type: DataTypes.STRING,
+        required: true,
+        allowNull: false
+      },
+      suggestion:{
+        type: DataTypes.STRING,
+        allowNull: true
       },
       deliveryTime: {
         type: DataTypes.DATE,
