@@ -1895,6 +1895,11 @@ next-tick@1, next-tick@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
+node-fpe@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/node-fpe/-/node-fpe-2.0.2.tgz#03da52e7403939ba3474496205233463eea70682"
+  integrity sha512-5rd32my+EZ+rp89UHXryaYiviAi+ttvPOzVbe9OSq6MxPRC9eVvVQKE2Cn9B8R0mnl42cwdnU7OnV3uqUMBr/g==
+
 nodemon@^2.0.20:
   version "2.0.20"
   resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.20.tgz#e3537de768a492e8d74da5c5813cb0c7486fc701"
@@ -2027,6 +2032,13 @@ optionator@^0.9.1:
     prelude-ls "^1.2.1"
     type-check "^0.4.0"
     word-wrap "^1.2.3"
+
+order-id@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/order-id/-/order-id-2.1.2.tgz#7d45539680f248fd43569ce854aadf4993560f03"
+  integrity sha512-XCeZ1zjUt0khezGcALhWv0WpY/6ZDcaYAudJeu0TneN9FtxeUOsG+J84UHP5l/Lhx35b4frbKbNExpHEy0DQIA==
+  dependencies:
+    node-fpe "^2.0.2"
 
 p-limit@^3.0.2:
   version "3.1.0"

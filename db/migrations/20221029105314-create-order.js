@@ -1,11 +1,15 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Orders', {
+    await queryInterface.createTable("Orders", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
+      },
+      orderId: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       userId: {
         type: Sequelize.UUID,
@@ -22,30 +26,31 @@ module.exports = {
       discountId: {
         type: Sequelize.UUID,
         allowNull: true,
-
       },
       status: {
         type: Sequelize.STRING,
         required: true,
         allowNull: false,
-        validate:{
-          isIn: [['Order received', 'Preparing','Out for delivery','Delivered']],
+        validate: {
+          isIn: [
+            ["Order received", "Preparing", "Out for delivery", "Delivered"],
+          ],
         },
-        defaultValue:"Order received"
+        defaultValue: "Order received",
       },
       modeOfPayment: {
         type: Sequelize.STRING,
         required: true,
-        allowNull: false
+        allowNull: false,
       },
-      outletName:{
+      outletName: {
         type: Sequelize.STRING,
         required: true,
-        allowNull: false
+        allowNull: false,
       },
-      suggestion:{
+      suggestion: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
       },
       deliveryTime: {
         type: Sequelize.DATE,
@@ -59,6 +64,6 @@ module.exports = {
     });
   },
   async down(queryInterface) {
-    await queryInterface.dropTable('Orders');
+    await queryInterface.dropTable("Orders");
   },
 };

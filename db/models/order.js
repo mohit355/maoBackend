@@ -1,14 +1,12 @@
-const { Model } = require('sequelize');
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     static associate(models) {
-      models.Order.hasOne(models.User, { foreignKey: 'updatedBy' });
-      models.Order.hasOne(models.User, { foreignKey: 'deletedBy' });
-      models.Order.belongsTo(models.User, { foreignKey: 'userId' });
-      models.Order.belongsTo(models.Address, { foreignKey: 'addressId'});
-
-      // models.Order.hasMany(models.Product, { foreignKey: 'productId'});
+      models.Order.hasOne(models.User, { foreignKey: "updatedBy" });
+      models.Order.hasOne(models.User, { foreignKey: "deletedBy" });
+      models.Order.belongsTo(models.User, { foreignKey: "userId" });
+      models.Order.belongsTo(models.Address, { foreignKey: "addressId" });
     }
   }
   Order.init(
@@ -18,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
         defaultValue: DataTypes.UUIDV4,
+      },
+      orderId: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       userId: {
         type: DataTypes.UUID,
@@ -39,24 +41,26 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         required: true,
         allowNull: false,
-        validate:{
-          isIn: [['Order received', 'Preparing','Out for delivery','Delivered']],
+        validate: {
+          isIn: [
+            ["Order received", "Preparing", "Out for delivery", "Delivered"],
+          ],
         },
-        defaultValue:"Order received"
+        defaultValue: "Order received",
       },
       modeOfPayment: {
         type: DataTypes.STRING,
         required: true,
-        allowNull: false
+        allowNull: false,
       },
-      outletName:{
+      outletName: {
         type: DataTypes.STRING,
         required: true,
-        allowNull: false
+        allowNull: false,
       },
-      suggestion:{
+      suggestion: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
       deliveryTime: {
         type: DataTypes.DATE,
@@ -72,10 +76,9 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       timestamps: true,
       paranoid: true,
-      modelName: 'Order',
-      tableName: 'Orders',
-    },
+      modelName: "Order",
+      tableName: "Orders",
+    }
   );
   return Order;
 };
-
