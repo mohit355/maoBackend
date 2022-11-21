@@ -65,3 +65,24 @@ exports.createOrder = async (req, res) => {
     res.status(400).send({ error });
   }
 };
+
+exports.updateOrder = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await db.Order.update(
+      {
+        ...req.body,
+      },
+      {
+        where: {
+          id: id,
+        },
+      }
+    );
+    res.status(200).send({ msg: "Order status updated" });
+  } catch (error) {
+    console.log("Product update error ", error);
+    res.status(400).send({ error });
+  }
+};
