@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const db = require("../db/models/index");
 
 exports.getProductById = async (req, res) => {
@@ -21,6 +22,7 @@ exports.getProductById = async (req, res) => {
 exports.getAllProduct = async (req, res) => {
   try {
     const { productType = "", name = "" } = req.query;
+    console.log("HELLLLLL ", req.query);
     const products = await db.Product.findAll({
       where: {
         productType: { [Op.iLike]: `%${productType}%` },
