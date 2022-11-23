@@ -48,8 +48,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       receiverPhoneNumber: {
         type: DataTypes.STRING,
-        required: true,
-        allowNull: false
       },
       createdAt: { type: DataTypes.DATE },
       updatedBy: { type: DataTypes.UUID },

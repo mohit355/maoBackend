@@ -24,12 +24,13 @@ exports.getOrderById = async (req, res) => {
   }
 };
 exports.getAllOrders = async (req, res) => {
-  const { status = "", outletName = "" } = req.query;
+  const { status = "", outletName = "",orderId="" } = req.query;
   try {
     const orders = await db.Order.findAll({
       where: {
         status: { [Op.iLike]: `%${status}%` },
         outletName: { [Op.iLike]: `%${outletName}%` },
+        orderId: { [Op.iLike]: `%${orderId}%` },
       },
       include: [
         {

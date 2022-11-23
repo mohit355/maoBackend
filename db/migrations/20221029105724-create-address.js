@@ -38,8 +38,6 @@ module.exports = {
       },
       receiverPhoneNumber: {
         type: Sequelize.STRING,
-        required: true,
-        allowNull: false
       },
       createdAt: { type: Sequelize.DATE },
       updatedBy: { type: Sequelize.UUID },

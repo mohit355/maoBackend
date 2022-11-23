@@ -21,12 +21,13 @@ exports.getProductById = async (req, res) => {
 };
 exports.getAllProduct = async (req, res) => {
   try {
-    const { productType = "", name = "" } = req.query;
+    const { productType = "", name = "",category="" } = req.query;
     console.log("HELLLLLL ", req.query);
     const products = await db.Product.findAll({
       where: {
         productType: { [Op.iLike]: `%${productType}%` },
         productName: { [Op.iLike]: `%${name}%` },
+        productCategory: { [Op.iLike]: `%${category}%` },
       },
     });
 
@@ -43,7 +44,15 @@ exports.getAllProduct = async (req, res) => {
 
 exports.getAllAdminViewProduct = async (req, res) => {
   try {
-    const products = await db.Product.findAll();
+    const { productType = "", name = "",category="" } = req.query;
+    const products = await db.Product.findAll({
+      where: {
+        productType: { [Op.iLike]: `%${productType}%` },
+        productName: { [Op.iLike]: `%${name}%` },
+        productCategory: { [Op.iLike]: `%${category}%` },
+
+      },
+    });
 
     if (products) {
       res.status(200).send({ auth: true, data: products });

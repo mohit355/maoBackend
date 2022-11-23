@@ -47,10 +47,9 @@ module.exports = (sequelize, DataTypes) => {
         // allowNull: false
       },
       productType: {
-        type: DataTypes.ENUM('veg', 'non-veg','All'),
+        type: DataTypes.STRING,
         required: true,
         allowNull: false,
-        defaultValue:'All'
       },
       productCategory: {
         type: DataTypes.STRING,

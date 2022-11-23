@@ -40,10 +40,9 @@ module.exports = {
         // allowNull: false
       },
       productType: {
-        type: Sequelize.ENUM('veg', 'non-veg','All'),
+        type: Sequelize.STRING,
         required: true,
         allowNull: false,
-        defaultValue:'All'
       },
       productCategory: {
         type: Sequelize.STRING,
