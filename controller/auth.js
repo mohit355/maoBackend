@@ -123,7 +123,7 @@ exports.signin = async (req, res) => {
       const token = jwt.sign({id: existingUser.id, isAdmin:existingUser.isAdmin, name: existingUser.name, phoneNumber:existingUser.phoneNumber}, process.env.SECRET_KEY, {
                     expiresIn: 86400 
       });
-      res.status(200).send({ auth: true, token: token , user: existingUser });
+      res.status(200).send({ auth: true, token: token , user: existingUser,msg:'User logged in successfully' });
     }
     else{
       res.status(401).json({
@@ -132,7 +132,7 @@ exports.signin = async (req, res) => {
     }
   }
   else{
-    res.status(400).send({auth:false, Details:"Invalid Credentials !"});
+    res.status(401).json({auth:false,code:'401', msg:"User name or password doesnot exists"});
   }
 };
 
