@@ -70,7 +70,9 @@ exports.getDiscountByOrderPriceRange=async (req,res)=>{
             });
             res.status(200).json({code:"200",data:{discounts:discounts[disIndex],totalDiscountAmount:maxDiscount}})
         }
-        res.status(200).json({code:"200",data:{discounts:{}}})
+        else{
+            res.status(200).json({code:"200",data:{discounts:{}}})
+        }
 
 
     } catch (error) {
