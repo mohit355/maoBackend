@@ -46,11 +46,32 @@ exports.getDiscountByOrderPriceRange=async (req,res)=>{
         const discounts= await db.Discount.findAll({
             where:{
                 discountOnOrderAbove:{
-                     [Op.gte]:priceRange
+                    [Op.lte]:priceRange
                 }
             }
         })
-        res.status(200).json({code:"200",data:discounts})
+        let maxDiscount=0;
+        if(discounts.length>0){
+            let disIndex=0;
+            discounts.forEach((dis,index) => {
+                if(dis.discountType){
+                    if(maxDiscount<dis.discountValue){
+                        maxDiscount=dis.discountValue;
+                        disIndex=index;
+                    }
+                }
+                else{
+                    const flatAmount=((dis.discountValue*100)/priceRange);
+                    if(flatAmount>maxDiscount){
+                        maxDiscount=flatAmount;
+                        disIndex=index;
+                    }
+                }
+            });
+            res.status(200).json({code:"200",data:{discounts:discounts[disIndex],totalDiscountAmount:maxDiscount}})
+        }
+        res.status(200).json({code:"200",data:{discounts:{}}})
+
 
     } catch (error) {
         console.log("error in get  discount by price ",error);
