@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         // allowNull: false
       },
        productImage: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(500),
         required: false,
         // allowNull: false
       },

@@ -54,14 +54,14 @@ exports.getDiscountByOrderPriceRange=async (req,res)=>{
         if(discounts.length>0){
             let disIndex=0;
             discounts.forEach((dis,index) => {
-                if(dis.discountType){
+                if(dis.discountType!=="Percentage"){
                     if(maxDiscount<dis.discountValue){
                         maxDiscount=dis.discountValue;
                         disIndex=index;
                     }
                 }
                 else{
-                    const flatAmount=((dis.discountValue*100)/priceRange);
+                    const flatAmount=((dis.discountValue/100)*priceRange);
                     if(flatAmount>maxDiscount){
                         maxDiscount=flatAmount;
                         disIndex=index;
