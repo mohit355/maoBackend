@@ -19,6 +19,14 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: false,
       },
+      totalPayableAmount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      totalDiscountedAmount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       addressId: {
         type: Sequelize.UUID,
         allowNull: false,

@@ -23,16 +23,23 @@ exports.getAllProduct = async (req, res) => {
   try {
     const { productType = "", name = "",category="" } = req.query;
     console.log("HELLLLLL ", req.query);
+    let query={}
+    if(productType){
+      query.productType=productType
+    }
+    if(category){
+      query.productCategory=category
+    }
     let products = await db.Product.findAll({
       where: {
-        productType: { [Op.iLike]: `%${productType}%` },
-        productName: { [Op.iLike]: `%${name}%` },
-        productCategory: { [Op.iLike]: `%${category}%` },
+        ...query,
+        productName: { [Op.iLike]: `%${name}%` }
       },
     });
 
     if (products) {
       products=JSON.parse(JSON.stringify(products));
+      console.log('productsproducts ',products)
       let availableCategory=[]
       let categoryWiseProducts={}
       products.forEach(product => {
@@ -59,11 +66,17 @@ exports.getAllProduct = async (req, res) => {
 exports.getAllAdminViewProduct = async (req, res) => {
   try {
     const { productType = "", name = "",category="" } = req.query;
+    let query={}
+    if(productType){
+      query.productType=productType
+    }
+    if(category){
+      query.productCategory=category
+    }
     const products = await db.Product.findAll({
       where: {
-        productType: { [Op.iLike]: `%${productType}%` },
+        ...query,
         productName: { [Op.iLike]: `%${name}%` },
-        productCategory: { [Op.iLike]: `%${category}%` },
 
       },
     });

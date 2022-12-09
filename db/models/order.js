@@ -29,6 +29,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.JSON,
         allowNull: false,
       },
+      totalPayableAmount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      totalDiscountedAmount: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       addressId: {
         type: DataTypes.UUID,
         allowNull: false,
