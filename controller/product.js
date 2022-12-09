@@ -23,7 +23,7 @@ exports.getAllProduct = async (req, res) => {
   try {
     const { productType = "", name = "",category="" } = req.query;
     console.log("HELLLLLL ", req.query);
-    const products = await db.Product.findAll({
+    let products = await db.Product.findAll({
       where: {
         productType: { [Op.iLike]: `%${productType}%` },
         productName: { [Op.iLike]: `%${name}%` },
@@ -32,7 +32,21 @@ exports.getAllProduct = async (req, res) => {
     });
 
     if (products) {
-      res.status(200).send({ auth: true, data: products });
+      products=JSON.parse(JSON.stringify(products));
+      let availableCategory=[]
+      let categoryWiseProducts={}
+      products.forEach(product => {
+        let category=product.productCategory;
+        if(availableCategory.includes(category)){
+            categoryWiseProducts[category]=[...categoryWiseProducts[category],product];
+        }
+        else{
+            categoryWiseProducts[category]=[product];
+        }
+      });
+      res.status(200).send({ auth: true, data: categoryWiseProducts });
+      // res.status(200).send({ auth: true, data: categoryWiseProducts });
+
     } else {
       res.status(404).send({ auth: true, data: [] });
     }
