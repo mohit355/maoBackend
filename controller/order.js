@@ -24,7 +24,7 @@ exports.getOrderById = async (req, res) => {
   }
 };
 exports.getAllOrders = async (req, res) => {
-  const { status = "", outletName = "",orderId="" } = req.query;
+  const { status = "", outletName = "", orderId = "" } = req.query;
   try {
     const orders = await db.Order.findAll({
       where: {
@@ -87,3 +87,29 @@ exports.updateOrder = async (req, res) => {
     res.status(400).send({ error });
   }
 };
+
+exports.getAllOrdersByUserId = async (req, res) => {
+  try {
+    const existingOrders = await db.Order.findAll({
+      include: [
+        {
+          model: db.Address,
+        },
+        {
+          model: db.User,
+        },
+      ],
+      where: {
+        userId: req.params.userId
+      },
+    });
+    if (existingOrders) {
+      res.status(200).send({ auth: true, data: existingOrders });
+    }
+    else {
+      res.status(404).send({ auth: true, data: [] });
+    }
+  } catch (error) {
+    console.log("get orders  by user id error ", error.original.routine);
+  }
+}
