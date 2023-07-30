@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: DataTypes.UUIDV4,
       },
-      
+
       productName: {
         type: DataTypes.STRING,
         required: true,
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         required: false,
         // allowNull: false
       },
-       productImage: {
+      productImage: {
         type: DataTypes.STRING(500),
         required: false,
         // allowNull: false
@@ -52,6 +52,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       productCategory: {
+        type: DataTypes.STRING,
+        required: true,
+        allowNull: false,
+      },
+      outletName: {
         type: DataTypes.STRING,
         required: true,
         allowNull: false,

@@ -19,36 +19,40 @@ exports.getProductById = async (req, res) => {
     res.status(400).send({ error });
   }
 };
+
 exports.getAllProduct = async (req, res) => {
   try {
-    const { productType = "", name = "",category="" } = req.query;
+    const { productType = "", name = "", category = "", outletName = "" } = req.query;
     console.log("HELLLLLL ", req.query);
-    let query={}
-    if(productType){
-      query.productType=productType
+    let query = {}
+    if (productType) {
+      query.productType = productType
     }
-    if(category){
-      query.productCategory=category
+    if (category) {
+      query.productCategory = category
+    }
+    if (outletName) {
+      query.outletName = outletName
     }
     let products = await db.Product.findAll({
       where: {
         ...query,
-        productName: { [Op.iLike]: `%${name}%` }
+        productName: { [Op.iLike]: `%${name}%` },
       },
     });
 
     if (products) {
-      products=JSON.parse(JSON.stringify(products));
-      console.log('productsproducts ',products)
-      let availableCategory=[]
-      let categoryWiseProducts={}
+      products = JSON.parse(JSON.stringify(products));
+      console.log('productsproducts ', products)
+      let availableCategory = []
+      let categoryWiseProducts = {}
       products.forEach(product => {
-        let category=product.productCategory;
-        if(availableCategory.includes(category)){
-            categoryWiseProducts[category]=[...categoryWiseProducts[category],product];
+        let category = product.productCategory;
+        if (availableCategory.includes(category)) {
+          categoryWiseProducts[category] = [...categoryWiseProducts[category], product];
         }
-        else{
-            categoryWiseProducts[category]=[product];
+        else {
+          categoryWiseProducts[category] = [product];
         }
       });
       res.status(200).send({ auth: true, data: categoryWiseProducts });
@@ -65,13 +69,16 @@ exports.getAllProduct = async (req, res) => {
 
 exports.getAllAdminViewProduct = async (req, res) => {
   try {
-    const { productType = "", name = "",category="" } = req.query;
-    let query={}
-    if(productType){
-      query.productType=productType
+    const { productType = "", name = "", category = "", outletName = "" } = req.query;
+    let query = {}
+    if (productType) {
+      query.productType = productType
     }
-    if(category){
-      query.productCategory=category
+    if (category) {
+      query.productCategory = category
+    }
+    if (outletName) {
+      query.outletName = outletName
     }
     const products = await db.Product.findAll({
       where: {
@@ -108,7 +115,7 @@ exports.getProductByCategory = async (req, res) => {
   }
 };
 
-exports.getProductByType = async () => {};
+exports.getProductByType = async () => { };
 
 // only accessible by admin
 exports.addProduct = async (req, res) => {

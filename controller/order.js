@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const db = require("../db/models/index");
 const orderid = require("order-id")("key");
+
 exports.getOrderById = async (req, res) => {
   const { id } = req.params;
   try {

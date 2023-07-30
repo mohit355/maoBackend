@@ -2,14 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Products',  {
+    await queryInterface.createTable('Products', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
       },
-      
+
       productName: {
         type: Sequelize.STRING,
         required: true,
@@ -29,7 +29,7 @@ module.exports = {
         required: false,
         // allowNull: false
       },
-       productImage: {
+      productImage: {
         type: Sequelize.STRING(500),
         required: false,
         // allowNull: false
@@ -45,6 +45,11 @@ module.exports = {
         allowNull: false,
       },
       productCategory: {
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false,
+      },
+      outletName: {
         type: Sequelize.STRING,
         required: true,
         allowNull: false,
