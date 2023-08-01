@@ -7,6 +7,9 @@ exports.getProductById = async (req, res) => {
       where: {
         id: req.params.id,
       },
+       attributes: {
+        exclude: ['deletedAt',"deletedBy",'updatedBy','updatedAt']
+    }
     });
 
     if (products) {
@@ -39,11 +42,13 @@ exports.getAllProduct = async (req, res) => {
         ...query,
         productName: { [Op.iLike]: `%${name}%` },
       },
+      attributes: {
+        exclude: ['deletedAt',"deletedBy",'updatedBy','updatedAt']
+    }
     });
 
     if (products) {
       products = JSON.parse(JSON.stringify(products));
-      console.log('productsproducts ', products)
       let availableCategory = []
       let categoryWiseProducts = {}
       products.forEach(product => {
@@ -52,9 +57,12 @@ exports.getAllProduct = async (req, res) => {
           categoryWiseProducts[category] = [...categoryWiseProducts[category], product];
         }
         else {
+          availableCategory.push(category)
           categoryWiseProducts[category] = [product];
         }
       });
+      console.log('categoryWiseProducts ', categoryWiseProducts)
+
       res.status(200).send({ auth: true, data: categoryWiseProducts });
       // res.status(200).send({ auth: true, data: categoryWiseProducts });
 
@@ -84,8 +92,10 @@ exports.getAllAdminViewProduct = async (req, res) => {
       where: {
         ...query,
         productName: { [Op.iLike]: `%${name}%` },
-
       },
+       attributes: {
+        exclude: ['deletedAt',"deletedBy",'updatedBy','updatedAt']
+    }
     });
 
     if (products) {

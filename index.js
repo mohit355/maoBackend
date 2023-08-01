@@ -12,6 +12,7 @@ const addressRoutes = require("./routes/address");
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
 const discountRoutes = require("./routes/discount");
+const dashboardRoutes = require("./routes/dashboard");
 
 
 
@@ -42,6 +43,8 @@ app.use("/api", addressRoutes);
 app.use("/api", productRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", discountRoutes);
+app.use("/api", dashboardRoutes);
+
 
 
 app.listen(process.env.PORT ,()=>{

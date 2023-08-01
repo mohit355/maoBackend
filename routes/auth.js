@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {signup,signin,signout,sendRegisterOTP,verifyOTP,makeAdmin,removeFromAdmin,getMe} = require("../controller/auth");
+const {signup,signin,signout,sendRegisterOTP,verifyOTP,makeAdmin,removeFromAdmin,getMe,deleteUser,getAllAdminList} = require("../controller/auth");
 const { userSignupValidator } = require("../validators/index");
 
 router.post("/signup", userSignupValidator, signup);
@@ -12,4 +12,6 @@ router.post("/sendOTP/verifyOTP", verifyOTP);
 router.get("/signout", signout);
 router.post("/auth/makeAdmin/:id", makeAdmin);
 router.post("/auth/removeAdmin/:id", removeFromAdmin);
+router.post("/auth/deleteUser/:id", deleteUser);
+router.get("/auth/admin/all", getAllAdminList);
 module.exports = router;

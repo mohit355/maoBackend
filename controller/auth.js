@@ -186,8 +186,30 @@ exports.makeAdmin = async (req, res) => {
     }
 };
 
+exports.getAllAdminList = async (req, res) => {
+  try {
+    let adminList = await db.User.findAll({
+      where: {
+        isAdmin:"1",
+      },
+    });
+
+    if (adminList) {
+      adminList = JSON.parse(JSON.stringify(adminList));
+      console.log('adminList ', adminList)
+      res.status(200).send({ auth: true, data: adminList });
+    } else {
+      res.status(404).send({ auth: true, data: [] });
+    }
+  } catch (error) {
+    console.log("get all admin error ", error);
+    res.status(400).send({ error });
+  }
+};
+
 exports.removeFromAdmin = async (req, res) => {
     const {id}=req.params;
+    console.log("adminId ", id);
     try {
         await db.User.update({
           isAdmin:"0",
@@ -202,6 +224,22 @@ exports.removeFromAdmin = async (req, res) => {
       console.log("remove admin errro ", error);
       res.status(400).send({error})
     }
+};
+
+exports.deleteUser = async (req, res) => {
+    const { id } = req.params;
+
+  try {
+    await db.User.destroy({
+      where: {
+        id: id,
+      },
+    });
+    res.status(200).send({ msg: "User Deleted Successfully" });
+  } catch (error) {
+    console.log("User Delete error ", error);
+    res.status(400).send({ error });
+  }
 };
 
 const sendOTPMessage = async (phone_no) => {
